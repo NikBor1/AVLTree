@@ -9,7 +9,7 @@ BinT::BinT()
 }
 
 
-void right_turn(Node* base)
+void BinT::right_turn(Node* base)
 {
     Node* newBase = base->get_leftSon();
     newBase = base->get_leftSon();
@@ -28,7 +28,7 @@ void right_turn(Node* base)
     (base->get_leftSon())->set_parent(base);
 }
 
-void left_turn(Node* base)
+void BinT::left_turn(Node* base)
 {
     Node* newBase = base->get_rightSon();
     newBase = base->get_rightSon();
@@ -48,7 +48,7 @@ void left_turn(Node* base)
 }
 
 
-void balance(Node* beg)
+void BinT::balance(Node* beg)
 {
     if(beg->underBalanced() == 1 || beg->underBalanced() == 3)
         this->balance(beg->get_leftSon());
@@ -94,10 +94,10 @@ void BinT::add(int newElem)
 
     while(breaker)
     {
-        if(newElem == nowAt->get_value())
+        if(newElem == nowAt->get_key())
             break;
 
-        if(newElem > nowAt->get_value())
+        if(newElem > nowAt->get_key())
         {
             if(nowAt->get_rightSon() == 0)
             {
@@ -112,7 +112,7 @@ void BinT::add(int newElem)
             }
         }
 
-        if(newElem < nowAt->get_value())
+        if(newElem < nowAt->get_key())
         {
             if(nowAt->get_leftSon() == 0)
             {
@@ -258,21 +258,22 @@ void BinT::locateDel(int k, Node* beg)
     if(beg->get_key() < k)
     {
         if(beg->get_rightSon() != 0)
-            return this->locate(k, beg->get_rightSon());
+            this->locateDel(k, beg->get_rightSon());
     }
 
 
     if(beg->get_key() > k)
     {
         if(beg->get_leftSon() != 0)
-            return this->locate(k, beg->get_leftSon());
+            this->locateDel(k, beg->get_leftSon());
     }
 
 }
 
 Node* BinT::getmin()
 {
-    Node* nowAt = this->root();
+    Node* nowAt;
+    nowAt = this->root();
 
     while(nowAt->get_leftSon() != 0)
         nowAt = nowAt->get_leftSon();
@@ -286,36 +287,36 @@ void BinT::delmin()
     while(nowAt->get_leftSon() != 0)
         nowAt = nowAt->get_leftSon();
 
-    if(beg->get_parent() == 0)
+    if(nowAt->get_parent() == 0)
     {
-        if(beg->type() == 0)
+        if(nowAt->type() == 0)
             this->set_root(0);
 
-        if(beg->type() == 2)
+        if(nowAt->type() == 2)
         {
-            this->set_root(beg->get_rightSon());
-            beg->get_rightSon()->set_parent(0);
+            this->set_root(nowAt->get_rightSon());
+            nowAt->get_rightSon()->set_parent(0);
         }
 
     }
     else
     {
-        if(beg->type() == 0)
-            beg->get_parent()->set_leftSon(0);
+        if(nowAt->type() == 0)
+            nowAt->get_parent()->set_leftSon(0);
 
-        if(beg->type() == 2)
+        if(nowAt->type() == 2)
         {
-            beg->get_parent()->set_leftSon(beg->get_rightSon());
-            beg->get_rightSon()->set_parent(beg->get_parent());
+            nowAt->get_parent()->set_leftSon(nowAt->get_rightSon());
+            nowAt->get_rightSon()->set_parent(nowAt->get_parent());
         }
     }
 
-    delete beg;
+    delete nowAt;
 
 
 }
 
-void print(Node* beg)
+void BinT::print(Node* beg)
 {
     beg->print();
 

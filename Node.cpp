@@ -1,6 +1,6 @@
 Node::Node()
 {
-    value = 0;
+    key = 0;
     parent = nullptr;
     leftSon = nullptr;
     rightSon = nullptr;
@@ -9,9 +9,9 @@ Node::Node()
 }
 
 
-Node::Node(Node* par, int val)
+Node::Node(Node* par, int k)
 {
-    value = val;
+    key = k;
     parent = par;
     leftSon = nullptr;
     rightSon = nullptr;
@@ -19,7 +19,7 @@ Node::Node(Node* par, int val)
     was = false;
 }
 
-int disbalance()
+int Node::disbalance()
 {
     int l, r;
 
@@ -37,7 +37,7 @@ int disbalance()
 
 }
 
-int underBalanced()
+int Node::underBalanced()
 {
     bool l, r;
 
@@ -55,7 +55,7 @@ int underBalanced()
         l = true;
     else
     {
-        if((this->get_leftSon())->disbalance() > 1 || (this->left_rightSon())->disbalance() < -1)
+        if((this->get_leftSon())->disbalance() > 1 || (this->get_rightSon())->disbalance() < -1)
             l = false;
         else
             l = true;
@@ -71,7 +71,7 @@ int underBalanced()
         return 3;
 }
 
-int type()
+int Node::type()
 {
     if(this->get_leftSon() == 0 && this->get_rightSon() == 0)
         return 0;
@@ -87,7 +87,7 @@ int type()
 
 }
 
-void print()
+void Node::print()
 {
-    std::cout << "Element " this << " is " << this->get_key() << ". Height is " << this->get_underHeight + 1 << ". Left son is  " << this->get_leftSon << ". Right son is "  << this->get_rightSon() << std::endl;
+    std::cout << "Element " << this << " is " << this->get_key() << ". Height is " << this->get_underHeight() + 1 << ". Left son is  " << this->get_leftSon() << ". Right son is "  << this->get_rightSon() << std::endl;
 }
