@@ -37,6 +37,7 @@ int main()
                 std::cout << "Enter a new element: \n";
                 std::cin >> k;
                 mainTree.add(k);
+                break;
             }
             case 3:
             {
@@ -48,6 +49,7 @@ int main()
                     std::cout << "There is no element with this key. Please, try again.\n";
                 else
                     std::cout << "Element address is " << mainTree.locate(k, mainTree.get_root()) << std::endl;
+                break;
             }
             case 4:
             {
@@ -55,6 +57,7 @@ int main()
                     std::cout << "There is no elements in tree. Please, try again.\n";
                 else
                     std::cout << "Element address is " << mainTree.getmin() << std::endl;
+                break;
             }
             case 5:
             {
@@ -62,15 +65,22 @@ int main()
                 std::cout << "Enter the key: \n";
                 std::cin >> k;
                 mainTree.locateDel(k, mainTree.get_root());
+                break;
             }
             case 6:
             {
                 mainTree.delmin();
+                break;
 
             }
             case 7:
             {
                 mainTree.print(mainTree.get_root());
+                break;
+            }
+            default:
+            {
+                break;
             }
         }
     }
