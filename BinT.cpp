@@ -88,67 +88,76 @@ void BinT::balance(Node* beg)
 
 void BinT::add(int newElem)
 {
-    bool breaker = true;
-    Node* nowAt = this->get_root();
     Node* newLeaf = new Node (nullptr, newElem);
 
-    while(breaker)
+    if(this->get_root() == 0)
+        this->set_root(newLeaf);
+    else
     {
-        if(newElem == nowAt->get_key())
-            break;
+        bool breaker = true;
+        Node* nowAt = this->get_root();
 
-        if(newElem > nowAt->get_key())
+
+        while(breaker)
         {
-            if(nowAt->get_rightSon() == 0)
-            {
-                newLeaf->set_parent(nowAt);
-                nowAt->set_rightSon(newLeaf);
+            if(newElem == nowAt->get_key())
                 break;
-            }
-            else
+
+            if(newElem > nowAt->get_key())
             {
-                nowAt = nowAt->get_rightSon();
-                continue;
+                if(nowAt->get_rightSon() == 0)
+                {
+                    newLeaf->set_parent(nowAt);
+                    nowAt->set_rightSon(newLeaf);
+                    break;
+                }
+                else
+                {
+                    nowAt = nowAt->get_rightSon();
+                    continue;
+                }
+            }
+
+            if(newElem < nowAt->get_key())
+            {
+                if(nowAt->get_leftSon() == 0)
+                {
+                    newLeaf->set_parent(nowAt);
+                    nowAt->set_leftSon(newLeaf);
+                    break;
+                }
+                else
+                {
+                    nowAt = nowAt->get_leftSon();
+                    continue;
+                }
             }
         }
-
-        if(newElem < nowAt->get_key())
+        while(nowAt != 0)
         {
-            if(nowAt->get_leftSon() == 0)
-            {
-                newLeaf->set_parent(nowAt);
-                nowAt->set_leftSon(newLeaf);
-                break;
-            }
+
+            if(nowAt->get_leftSon() == 0 && nowAt->get_rightSon() == 0)
+                nowAt->set_underHeight(0);
+
+            if(nowAt->get_leftSon() == 0 && nowAt->get_rightSon() != 0)
+                nowAt->set_underHeight((nowAt->get_rightSon())->get_underHeight() + 1);
+
+            if(nowAt->get_leftSon() != 0 && nowAt->get_rightSon() == 0)
+                nowAt->set_underHeight((nowAt->get_leftSon())->get_underHeight() + 1);
+
+            if(nowAt->get_leftSon() != 0 && nowAt->get_rightSon() != 0)
+                nowAt->set_underHeight(std::max((nowAt->get_leftSon())->get_underHeight() + 1, (nowAt->get_rightSon())->get_underHeight() + 1));
+
+            if(nowAt->get_parent() !=0)
+                nowAt = nowAt->get_parent();
             else
-            {
-                nowAt = nowAt->get_leftSon();
-                continue;
-            }
+                break;
         }
-    }
-    while(nowAt != 0)
-    {
 
-        if(nowAt->get_leftSon() == 0 && nowAt->get_rightSon() == 0)
-           nowAt->set_underHeight(0);
-
-        if(nowAt->get_leftSon() == 0 && nowAt->get_rightSon() != 0)
-           nowAt->set_underHeight((nowAt->get_rightSon())->get_underHeight() + 1);
-
-        if(nowAt->get_leftSon() != 0 && nowAt->get_rightSon() == 0)
-           nowAt->set_underHeight((nowAt->get_leftSon())->get_underHeight() + 1);
-
-        if(nowAt->get_leftSon() != 0 && nowAt->get_rightSon() != 0)
-            nowAt->set_underHeight(std::max((nowAt->get_leftSon())->get_underHeight() + 1, (nowAt->get_rightSon())->get_underHeight() + 1));
-
-        if(nowAt->get_parent() !=0)
-            nowAt = nowAt->get_parent();
-        else
-            break;
+        this->balance(this->root);
     }
 
-    this->balance(this->root);
+
 }
 
 
@@ -273,7 +282,7 @@ void BinT::locateDel(int k, Node* beg)
 Node* BinT::getmin()
 {
     Node* nowAt;
-    nowAt = this->root();
+    nowAt = this->get_root();
 
     while(nowAt->get_leftSon() != 0)
         nowAt = nowAt->get_leftSon();
@@ -282,7 +291,7 @@ Node* BinT::getmin()
 
 void BinT::delmin()
 {
-    Node* nowAt = this->root();
+    Node* nowAt = this->get_root();
 
     while(nowAt->get_leftSon() != 0)
         nowAt = nowAt->get_leftSon();
