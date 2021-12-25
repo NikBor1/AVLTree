@@ -19,13 +19,13 @@ public:
 
     void right_turn(Node* base);
     void left_turn(Node* base);
-    void balace(Node* beg);
+    void balance(Node* beg);
 
-    Node* BinT::locate(int k, Node* beg);
-    void BinT::locateDel(int k, Node* beg);
+    Node* locate(int k, Node* beg);
+    void locateDel(int k, Node* beg);
 
-    Node* BinT::getmin();
-    void BinT::delmin();
+    Node* getmin();
+    void delmin();
 
     void print(Node* beg);
 };
